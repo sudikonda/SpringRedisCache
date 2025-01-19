@@ -21,28 +21,26 @@ public class AddressController {
     private final AddressService addressService;
 
     @GetMapping("/address/{id}")
-    public ResponseEntity<Address> getAddress(@PathVariable Long id) {
-        Address address = addressService.getAddress(id);
-        return ResponseEntity.ok().body(address);
+    public Address getAddress(@PathVariable Long id) {
+        return addressService.getAddress(id);
     }
 
     @GetMapping("/addresses")
     @Cacheable(value = "addresses")
-    public ResponseEntity<Iterable<Address>> getAddresses() {
-        Iterable<Address> addresses = addressService.getAllAddresses();
-        return ResponseEntity.ok().body(addresses);
+    public Iterable<Address> getAddresses() {
+        return addressService.getAllAddresses();
     }
 
     @PostMapping("/address")
     @CacheEvict(value = "addresses", allEntries = true)
-    public ResponseEntity<String> createAddress(@RequestBody Address address) {
+    public String createAddress(@RequestBody Address address) {
         try {
             log.info("Creating address: {}", address);
             addressService.saveAddress(address);
-            return ResponseEntity.ok().body("Address created successfully");
+            return "Address created successfully";
         } catch (Exception e) {
             log.error("Failed to create address: {}", e.getMessage());
-            return ResponseEntity.badRequest().body("Failed to create address: " + e.getMessage());
+            return "Failed to create address: " + e.getMessage();
         }
     }
 

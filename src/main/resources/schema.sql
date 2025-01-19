@@ -1,6 +1,6 @@
 CREATE TABLE Address
 (
-    id     INT PRIMARY KEY,
+    id     INT AUTO_INCREMENT PRIMARY KEY,
     street VARCHAR(255) NOT NULL,
     city   VARCHAR(255) NOT NULL,
     state  VARCHAR(2)   NOT NULL,
